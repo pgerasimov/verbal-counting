@@ -1,52 +1,50 @@
-const path = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { DefinePlugin } = require('webpack');
 
 module.exports = {
+  mode: 'development',
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/',
+    path: __dirname + '/dist',
+    filename: 'bundle.js'
   },
   module: {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        loader: 'vue-loader'
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
         loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env'],
-        },
+        exclude: /node_modules/
       },
       {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader'],
-      },
-      {
-        test: /\.scss$/,
-        use: ['vue-style-loader', 'css-loader', 'sass-loader'],
-      },
-    ],
-  },
-  resolve: {
-    extensions: ['.js', '.vue'],
-    alias: {
-      'vue$': 'vue/dist/vue.esm.js',
-    },
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ]
+      }
+    ]
   },
   plugins: [
     new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      template: './public/index.html'
+    }),
+    new DefinePlugin({
+      __VUE_OPTIONS_API__: JSON.stringify(true),
+      __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
+    }),
   ],
-  devServer: {
-    static: {
-      directory: path.resolve(__dirname, 'public'),
-    },
-    compress: true,
-    port: 9000,
-    historyApiFallback: true,
+  resolve: {
+    extensions: ['.js', '.vue']
   },
+  devServer: {
+    historyApiFallback: true,
+    open: true,
+    hot: true
+  }
 };
