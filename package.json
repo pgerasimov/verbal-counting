@@ -20,6 +20,7 @@
     "@babel/preset-env": "^7.16.7",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.10.0",
+    "html-webpack-plugin": "^5.6.0",
     "sass-loader": "^12.3.0",
     "style-loader": "^3.3.1",
     "vue-loader": "^17.2.1",
